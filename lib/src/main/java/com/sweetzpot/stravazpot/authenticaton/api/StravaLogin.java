@@ -11,6 +11,7 @@ public class StravaLogin {
     private Context context;
     private int clientID;
     private String redirectURI;
+    private String userAgent;
     private ApprovalPrompt approvalPrompt;
     private AccessScope accessScope;
 
@@ -32,6 +33,11 @@ public class StravaLogin {
         return this;
     }
 
+    public StravaLogin withUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
+
     public StravaLogin withApprovalPrompt(ApprovalPrompt approvalPrompt) {
         this.approvalPrompt = approvalPrompt;
         return this;
@@ -46,6 +52,7 @@ public class StravaLogin {
         Intent intent = new Intent(context, StravaLoginActivity.class);
         intent.putExtra(StravaLoginActivity.EXTRA_LOGIN_URL, makeLoginURL());
         intent.putExtra(StravaLoginActivity.EXTRA_REDIRECT_URL, redirectURI);
+        intent.putExtra(StravaLoginActivity.EXTRA_USER_AGENT, userAgent);
         return intent;
     }
 

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +18,7 @@ public class StravaLoginActivity extends AppCompatActivity {
 
     public static final String EXTRA_LOGIN_URL = "StravaLoginActivity.EXTRA_LOGIN_URL";
     public static final String EXTRA_REDIRECT_URL = "StravaLoginActivity.EXTRA_REDIRECT_URL";
+    public static final String EXTRA_USER_AGENT = "StravaLoginActivity.EXTRA_USER_AGENT";
     public static final String RESULT_CODE = "StravaLoginActivity.RESULT_CODE";
 
     private WebView loginWebview;
@@ -28,11 +30,11 @@ public class StravaLoginActivity extends AppCompatActivity {
 
         loginWebview = (WebView) findViewById(R.id.login_webview);
 
-        configureWebViewClient();
+        configureWebView();
         loadLoginURL();
     }
 
-    private void configureWebViewClient() {
+    private void configureWebView() {
         loginWebview.setWebViewClient(new WebViewClient(){
             @SuppressWarnings("deprecation")
             @Override
@@ -68,6 +70,11 @@ public class StravaLoginActivity extends AppCompatActivity {
                 return false;
             }
         });
+        
+        String userAgentString = getIntent().getStringExtra(EXTRA_USER_AGENT);
+        if (!TextUtils.isEmpty(userAgentString)) {
+            loginWebview.getSettings().setUserAgentString(userAgentString);
+        }
     }
 
     private void loadLoginURL() {
